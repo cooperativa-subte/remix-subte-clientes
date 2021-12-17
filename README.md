@@ -2,6 +2,11 @@
 
 - [Remix Docs](https://remix.run/docs)
 
+
+## Prisma regenerate database
+```sh
+npx prisma db push
+```
 ## Development
 
 From your terminal:

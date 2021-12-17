@@ -1,5 +1,7 @@
-import { Link, LinksFunction } from "remix";
+import { Link, LinksFunction, LoaderFunction, useLoaderData } from "remix";
 import { Outlet } from "remix";
+
+import { db } from "~/utils/db.server";
 
 import stylesUrl from "../styles/clientes.css";
 
@@ -12,7 +14,21 @@ export const links: LinksFunction = () => {
   ];
 };
 
+type LoaderData = {
+  clientsListItems: Array<{ id: string; name: string }>;
+};
+
+export const loader: LoaderFunction = async () => {
+  const data: LoaderData = {
+    clientsListItems: (await db.client.findMany()) ?? [],
+  };
+
+  return data;
+};
+
 export default function ClientesRoute() {
+  const data = useLoaderData<LoaderData>();
+
   return (
     <div>
       <header>
@@ -27,10 +43,15 @@ export default function ClientesRoute() {
           <Link to=".">Mostrar un cliente random</Link>
           <p>Este es un cliente random a mostrar</p>
           <ul>
-            <li>
-              <Link to="cliente-random-id">Cooperativa de trabajo SUBTE</Link>
-            </li>
+            {data.clientsListItems.map((client) => (
+              <li key={client.id}>
+                <Link to={client.id}>{client.name}</Link>
+              </li>
+            ))}
           </ul>
+          <Link className="button" to="nuevo">
+            Agregar cliente
+          </Link>
         </div>
         <div className="clientes-outlet">
           <Outlet />
