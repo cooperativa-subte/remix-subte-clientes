@@ -10,10 +10,21 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Client {
-  id            String @id @default(uuid())
+model User {
+  id            String   @id@default(cuid())
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
-  name        String
-  contactEmail String
+  username      String   @unique
+  passwordHash  String
+  clients       Client[]
+}
+
+model Client {
+  id            String   @id @default(uuid())
+  creatorId     String
+  creator       User     @relation(fields: [creatorId], references: [id], onDelete: Cascade )
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  name          String
+  contactEmail  String
 }

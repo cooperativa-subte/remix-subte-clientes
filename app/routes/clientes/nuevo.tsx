@@ -1,6 +1,7 @@
 import { ActionFunction, json, redirect, useActionData } from "remix";
 
 import { db } from "~/utils/db.server";
+import { requireUserId } from "~/utils/session.server";
 
 function validateClientName(name: string) {
   if (name.length < 3) {
@@ -29,6 +30,7 @@ type ActionData = {
 const badRequest = (data: ActionData) => json(data, { status: 400 });
 
 export const action: ActionFunction = async ({ request }) => {
+  const userId = await requireUserId(request);
   const form = await request.formData();
   const name = form.get("name");
   const email = form.get("email");
@@ -50,7 +52,7 @@ export const action: ActionFunction = async ({ request }) => {
     return badRequest({ fieldErrors, fields });
   }
 
-  const client = await db.client.create({ data: fields });
+  const client = await db.client.create({ data: { ...fields, creatorId: userId } });
 
   return redirect(`/clientes/${client.id}`);
 };

@@ -1,7 +1,9 @@
+import { User } from "@prisma/client";
 import { Link, LinksFunction, LoaderFunction, useLoaderData } from "remix";
 import { Outlet } from "remix";
 
 import { db } from "~/utils/db.server";
+import { getUser } from "~/utils/session.server";
 
 import stylesUrl from "../styles/clientes.css";
 
@@ -15,12 +17,22 @@ export const links: LinksFunction = () => {
 };
 
 type LoaderData = {
+  user: User | null;
   clientsListItems: Array<{ id: string; name: string }>;
 };
 
-export const loader: LoaderFunction = async () => {
+export const loader: LoaderFunction = async ({ request }) => {
+  const clientsListItems = await db.client.findMany({
+    take: 5,
+    orderBy: { createdAt: "desc" },
+    select: { id: true, name: true },
+  });
+
+  const user = await getUser(request);
+
   const data: LoaderData = {
-    clientsListItems: (await db.client.findMany()) ?? [],
+    clientsListItems,
+    user,
   };
 
   return data;
@@ -37,6 +49,18 @@ export default function ClientesRoute() {
             SUBTE CLIENTES
           </Link>
         </h1>
+        {data.user ? (
+          <div>
+            <span>{`Hi ${data.user.username}`}</span>
+            <form action="/logout" method="POST">
+              <button className="button" type="submit">
+                Logout
+              </button>
+            </form>
+          </div>
+        ) : (
+          <Link to="/login">Login</Link>
+        )}
       </header>
       <main>
         <div className="clients-list">
