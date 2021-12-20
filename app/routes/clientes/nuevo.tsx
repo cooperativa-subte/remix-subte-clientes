@@ -1,7 +1,23 @@
-import { ActionFunction, json, redirect, useActionData } from "remix";
+import {
+  ActionFunction,
+  json,
+  Link,
+  LoaderFunction,
+  redirect,
+  useActionData,
+  useCatch,
+} from "remix";
 
 import { db } from "~/utils/db.server";
-import { requireUserId } from "~/utils/session.server";
+import { getUserId, requireUserId } from "~/utils/session.server";
+
+export const loader: LoaderFunction = async ({ request }) => {
+  const userId = await getUserId(request);
+
+  if (!userId) {
+    throw new Response("No estás autenticado", { status: 401 });
+  }
+};
 
 function validateClientName(name: string) {
   if (name.length < 3) {
@@ -104,6 +120,27 @@ export default function NuevoClienteRoute() {
           </button>
         </div>
       </form>
+    </div>
+  );
+}
+
+export function CatchBoundary() {
+  const caught = useCatch();
+
+  if (caught.status === 401) {
+    return (
+      <div className="error-container">
+        <p>Tienes que estar logueado para crear un cliente</p>
+        <Link to="/login">Login</Link>
+      </div>
+    );
+  }
+}
+
+export function ErrorBoundary() {
+  return (
+    <div className="error-container">
+      <p>Pasó algo malo, intente de nuevo.</p>
     </div>
   );
 }

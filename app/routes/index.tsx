@@ -1,9 +1,16 @@
-import { Link, LinksFunction } from "remix";
+import { Link, LinksFunction, MetaFunction } from "remix";
 
 import stylesUrl from "../styles/index.css";
 
 export const links: LinksFunction = () => {
   return [{ rel: "stylesheet", href: stylesUrl }];
+};
+
+export const meta: MetaFunction = () => {
+  return {
+    title: "SUBTE Clientes",
+    description: "Inicio",
+  };
 };
 
 export default function IndexRoute() {

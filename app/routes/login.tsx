@@ -1,12 +1,27 @@
-import { ActionFunction, json, Link, LinksFunction, useActionData, useSearchParams } from "remix";
+import {
+  ActionFunction,
+  json,
+  Link,
+  LinksFunction,
+  MetaFunction,
+  useActionData,
+  useSearchParams,
+} from "remix";
 
 import { db } from "~/utils/db.server";
-import { createUserSession, login } from "~/utils/session.server";
+import { createUserSession, login, register } from "~/utils/session.server";
 
 import stylesUrl from "../styles/login.css";
 
 export const links: LinksFunction = () => {
   return [{ rel: "stylesheet", href: stylesUrl }];
+};
+
+export const meta: MetaFunction = () => {
+  return {
+    title: "SUBTE Clientes | Login",
+    description: "Login",
+  };
 };
 
 function validateUsername(username: unknown) {
@@ -65,10 +80,8 @@ export const action: ActionFunction = async ({ request }) => {
   }
 
   switch (loginType) {
-    case "login":
+    case "login": {
       const user = await login({ username, password });
-
-      console.log({ user });
 
       if (!user) {
         return badRequest({
@@ -78,7 +91,8 @@ export const action: ActionFunction = async ({ request }) => {
       }
 
       return createUserSession(user.id, redirectTo);
-    case "register":
+    }
+    case "register": {
       const userExists = await db.user.findFirst({ where: { username } });
 
       if (userExists) {
@@ -88,15 +102,23 @@ export const action: ActionFunction = async ({ request }) => {
         });
       }
 
-      return badRequest({
-        fields,
-        formError: "No implementado",
-      });
-    default:
+      const user = await register({ username, password });
+
+      if (!user) {
+        return badRequest({
+          fields,
+          formError: "Error al registrar el usuario",
+        });
+      }
+
+      return createUserSession(user.id, redirectTo);
+    }
+    default: {
       return badRequest({
         fields,
         formError: "El tipo de login es incorrecto",
       });
+    }
   }
 };
 
