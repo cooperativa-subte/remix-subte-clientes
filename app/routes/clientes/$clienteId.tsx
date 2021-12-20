@@ -11,6 +11,7 @@ import {
   useParams,
 } from "remix";
 
+import { ClientDisplay } from "~/components/client";
 import { db } from "~/utils/db.server";
 import { getUserId, requireUserId } from "~/utils/session.server";
 
@@ -63,27 +64,7 @@ export const action: ActionFunction = async ({ request, params }) => {
 export default function ClienteRoute() {
   const data = useLoaderData<LoaderData>();
 
-  return (
-    <div>
-      <p>Esta es la info del cliente</p>
-      <p>Nombre: {data.client.name}</p>
-      <Link to=".">{data.client.name} Permalink</Link>
-      <p>
-        Email de contacto:{" "}
-        <a href={data.client.contactEmail} rel="noreferrer noopener" target="_blank">
-          {data.client.contactEmail}
-        </a>
-      </p>
-      {data.isOwner && (
-        <Form method="post">
-          <input name="_method" type="hidden" value="delete" />
-          <button className="button" type="submit">
-            Borrar
-          </button>
-        </Form>
-      )}
-    </div>
-  );
+  return <ClientDisplay client={data.client} isOwner={data.isOwner} />;
 }
 
 export function CatchBoundary() {

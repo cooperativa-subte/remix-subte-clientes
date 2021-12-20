@@ -7,8 +7,10 @@ import {
   redirect,
   useActionData,
   useCatch,
+  useTransition,
 } from "remix";
 
+import { ClientDisplay } from "~/components/client";
 import { db } from "~/utils/db.server";
 import { getUserId, requireUserId } from "~/utils/session.server";
 
@@ -76,6 +78,21 @@ export const action: ActionFunction = async ({ request }) => {
 
 export default function NuevoClienteRoute() {
   const actionData = useActionData<ActionData>();
+  const transition = useTransition();
+
+  if (transition.submission) {
+    const name = transition.submission.formData.get("name");
+    const email = transition.submission.formData.get("email");
+
+    if (
+      typeof name === "string" &&
+      typeof email === "string" &&
+      !validateClientName(name) &&
+      !validateClientEmail(email)
+    ) {
+      return <ClientDisplay isOwner canDelete={false} client={{ name, contactEmail: email }} />;
+    }
+  }
 
   return (
     <div>
