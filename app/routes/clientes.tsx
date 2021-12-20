@@ -1,5 +1,5 @@
 import { User } from "@prisma/client";
-import { Link, LinksFunction, LoaderFunction, useLoaderData } from "remix";
+import { Form, Link, LinksFunction, LoaderFunction, useLoaderData } from "remix";
 import { Outlet } from "remix";
 
 import { db } from "~/utils/db.server";
@@ -52,11 +52,11 @@ export default function ClientesRoute() {
         {data.user ? (
           <div>
             <span>{`Hi ${data.user.username}`}</span>
-            <form action="/logout" method="POST">
+            <Form action="/logout" method="post">
               <button className="button" type="submit">
                 Logout
               </button>
-            </form>
+            </Form>
           </div>
         ) : (
           <Link to="/login">Login</Link>
@@ -69,7 +69,9 @@ export default function ClientesRoute() {
           <ul>
             {data.clientsListItems.map((client) => (
               <li key={client.id}>
-                <Link to={client.id}>{client.name}</Link>
+                <Link prefetch="intent" to={client.id}>
+                  {client.name}
+                </Link>
               </li>
             ))}
           </ul>

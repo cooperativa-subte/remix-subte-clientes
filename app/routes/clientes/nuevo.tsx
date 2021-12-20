@@ -1,5 +1,6 @@
 import {
   ActionFunction,
+  Form,
   json,
   Link,
   LoaderFunction,
@@ -79,7 +80,7 @@ export default function NuevoClienteRoute() {
   return (
     <div>
       <p>Agregar un cliente</p>
-      <form method="post">
+      <Form method="post">
         <div>
           <label>
             Nombre:{" "}
@@ -119,7 +120,7 @@ export default function NuevoClienteRoute() {
             Agregar
           </button>
         </div>
-      </form>
+      </Form>
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import type { Client } from "@prisma/client";
 import {
   ActionFunction,
+  Form,
   Link,
   LoaderFunction,
   MetaFunction,
@@ -74,12 +75,12 @@ export default function ClienteRoute() {
         </a>
       </p>
       {data.isOwner && (
-        <form method="post">
+        <Form method="post">
           <input name="_method" type="hidden" value="delete" />
           <button className="button" type="submit">
             Borrar
           </button>
-        </form>
+        </Form>
       )}
     </div>
   );
