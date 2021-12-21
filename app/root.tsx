@@ -13,6 +13,7 @@ import React from "react";
 import globalStylesUrl from "./styles/global.css";
 import globalMediumStylesUrl from "./styles/global-medium.css";
 import globalLargeStylesUrl from "./styles/global-large.css";
+import styles from "./tailwind.css";
 
 export const links: LinksFunction = () => {
   return [
@@ -20,6 +21,7 @@ export const links: LinksFunction = () => {
       rel: "stylesheet",
       href: globalStylesUrl,
     },
+    { rel: "stylesheet", href: styles },
     {
       rel: "stylesheet",
       href: globalMediumStylesUrl,
