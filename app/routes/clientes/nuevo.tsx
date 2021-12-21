@@ -20,6 +20,8 @@ export const loader: LoaderFunction = async ({ request }) => {
   if (!userId) {
     throw new Response("No estás autenticado", { status: 401 });
   }
+
+  return {};
 };
 
 function validateClientName(name: string) {
@@ -148,17 +150,19 @@ export function CatchBoundary() {
   if (caught.status === 401) {
     return (
       <div className="error-container">
-        <p>Tienes que estar logueado para crear un cliente</p>
+        <p>Tienes que estar autenticado para usar la app</p>
         <Link to="/login">Login</Link>
       </div>
     );
   }
 }
 
-export function ErrorBoundary() {
+export function ErrorBoundary({ error }: { error: Error }) {
+  console.log(error);
+
   return (
     <div className="error-container">
-      <p>Pasó algo malo, intente de nuevo.</p>
+      <p>Ups, algo pasó mal. Inténtelo de nuevo.</p>
     </div>
   );
 }

@@ -44,7 +44,7 @@ export const action: ActionFunction = async ({ request, params }) => {
   if (form.get("_method") === "DELETE") {
     const userId = await requireUserId(request);
     const client = await db.client.findUnique({
-      where: { id: params.clientId },
+      where: { id: params.clienteId },
     });
 
     if (!client) {
@@ -55,7 +55,7 @@ export const action: ActionFunction = async ({ request, params }) => {
       throw new Response("No puedes borrar un cliente que no te pertenece", { status: 401 });
     }
 
-    await db.client.delete({ where: { id: params.clientId } });
+    await db.client.delete({ where: { id: params.clienteId } });
 
     return redirect("/clientes");
   }
@@ -92,7 +92,8 @@ export function CatchBoundary() {
   }
 }
 
-export function ErrorBoundary() {
+export function ErrorBoundary({ error }: { error: Error }) {
+  console.log(error);
   const { clientId } = useParams();
 
   return (

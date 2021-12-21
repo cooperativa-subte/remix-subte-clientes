@@ -1,5 +1,5 @@
 import { Client } from "@prisma/client";
-import { Form, Link } from "remix";
+import { Form } from "remix";
 
 export function ClientDisplay({
   client,
@@ -12,19 +12,27 @@ export function ClientDisplay({
 }) {
   return (
     <div>
-      <p>Esta es la info del cliente</p>
-      <p>Nombre: {client.name}</p>
-      <Link to=".">{client.name} Permalink</Link>
+      <p className="font-bold text-xl mb-4">Cliente:</p>
+      <p className="italic text-xl">{client.name}</p>
       <p>
-        Email de contacto:{" "}
-        <a href={client.contactEmail} rel="noreferrer noopener" target="_blank">
+        <span className="font-bold">Email de contacto: </span>
+        <a
+          className="underline"
+          href={client.contactEmail}
+          rel="noreferrer noopener"
+          target="_blank"
+        >
           {client.contactEmail}
         </a>
       </p>
       {isOwner && (
-        <Form method="post">
-          <input name="_method" type="hidden" value="delete" />
-          <button className="button" disabled={!canDelete} type="submit">
+        <Form className="flex justify-end" method="post">
+          <input name="_method" type="hidden" value="DELETE" />
+          <button
+            className="border-2 border-black px-2 rounded"
+            disabled={!canDelete}
+            type="submit"
+          >
             Borrar
           </button>
         </Form>

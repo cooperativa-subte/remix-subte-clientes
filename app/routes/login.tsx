@@ -7,6 +7,7 @@ import {
   useActionData,
   useSearchParams,
 } from "remix";
+import { AiFillHome } from "react-icons/ai";
 
 import { db } from "~/utils/db.server";
 import { createUserSession, login, register } from "~/utils/session.server";
@@ -43,7 +44,6 @@ type ActionData = {
     password: string | undefined;
   };
   fields?: {
-    loginType: string;
     username: string;
     password: string;
   };
@@ -53,13 +53,11 @@ const badRequest = (data: ActionData) => json(data, { status: 400 });
 
 export const action: ActionFunction = async ({ request }) => {
   const form = await request.formData();
-  const loginType = form.get("loginType");
   const username = form.get("username");
   const password = form.get("password");
   const redirectTo = form.get("redirectTo") || "/clientes";
 
   if (
-    typeof loginType !== "string" ||
     typeof username !== "string" ||
     typeof password !== "string" ||
     typeof redirectTo !== "string"
@@ -69,7 +67,7 @@ export const action: ActionFunction = async ({ request }) => {
     });
   }
 
-  const fields = { loginType, username, password };
+  const fields = { username, password };
   const fieldErrors = {
     username: validateUsername(username),
     password: validatePassword(password),
@@ -78,48 +76,16 @@ export const action: ActionFunction = async ({ request }) => {
   if (Object.values(fieldErrors).some(Boolean)) {
     return badRequest({ fieldErrors, fields });
   }
+  const user = await login({ username, password });
 
-  switch (loginType) {
-    case "login": {
-      const user = await login({ username, password });
-
-      if (!user) {
-        return badRequest({
-          fields,
-          formError: "Username/Password compination is incorrect",
-        });
-      }
-
-      return createUserSession(user.id, redirectTo);
-    }
-    case "register": {
-      const userExists = await db.user.findFirst({ where: { username } });
-
-      if (userExists) {
-        return badRequest({
-          fields,
-          formError: `El usuario ${username} ya existe`,
-        });
-      }
-
-      const user = await register({ username, password });
-
-      if (!user) {
-        return badRequest({
-          fields,
-          formError: "Error al registrar el usuario",
-        });
-      }
-
-      return createUserSession(user.id, redirectTo);
-    }
-    default: {
-      return badRequest({
-        fields,
-        formError: "El tipo de login es incorrecto",
-      });
-    }
+  if (!user) {
+    return badRequest({
+      fields,
+      formError: "Username/Password compination is incorrect",
+    });
   }
+
+  return createUserSession(user.id, redirectTo);
 };
 
 export default function Login() {
@@ -127,46 +93,29 @@ export default function Login() {
   const [searchParams] = useSearchParams();
 
   return (
-    <div className="container">
-      <div className="content" data-light="">
-        <h1>Login</h1>
+    <div className="flex flex-col items-center">
+      <img alt="Logo SUBTE" className="w-80 mt-10" src="/subte-logo.png" />
+      <p className="mb-8 text-xl mt-2 font-bold">Clientes</p>
+      <div data-light="">
         <form
           aria-describedby={actionData?.formError ? "form-error-message" : undefined}
+          className="bg-gray-100 px-8 py-4 rounded"
           method="post"
         >
+          <h1 className="text-xl font-bold text-center mb-4">Login</h1>
           <input
             name="redirectTo"
             type="hidden"
             value={searchParams.get("redirectTo") ?? undefined}
           />
-          <fieldset>
-            <legend className="sr-only">Login or Register?</legend>
-            <label>
-              <input
-                defaultChecked={
-                  !actionData?.fields?.loginType || actionData?.fields?.loginType === "login"
-                }
-                name="loginType"
-                type="radio"
-                value="login"
-              />{" "}
-              Login
-            </label>
-            <label>
-              <input
-                defaultChecked={actionData?.fields?.loginType === "register"}
-                name="loginType"
-                type="radio"
-                value="register"
-              />{" "}
-              Register
-            </label>
-          </fieldset>
           <div>
-            <label htmlFor="username-input">Username</label>
+            <label className="font-bold" htmlFor="username-input">
+              Usuario
+            </label>
             <input
               aria-describedby={actionData?.fieldErrors?.username ? "username-error" : undefined}
               aria-invalid={Boolean(actionData?.fieldErrors?.username)}
+              className="inline-block w-full px-2"
               defaultValue={actionData?.fields?.username}
               id="username-input"
               name="username"
@@ -178,11 +127,14 @@ export default function Login() {
               </p>
             )}
           </div>
-          <div>
-            <label htmlFor="password-input">Password</label>
+          <div className="mt-2">
+            <label className="font-bold" htmlFor="password-input">
+              Contraseña
+            </label>
             <input
               aria-describedby={actionData?.fieldErrors?.password ? "password-error" : undefined}
               aria-invalid={Boolean(actionData?.fieldErrors?.password) || undefined}
+              className="inline-block w-full px-2"
               defaultValue={actionData?.fields?.password}
               id="password-input"
               name="password"
@@ -197,18 +149,18 @@ export default function Login() {
           <div id="form-error-message">
             {actionData?.formError && <p>{actionData?.formError}</p>}
           </div>
-          <button className="button" type="submit">
-            Submit
+          <button className="w-full bg-gray-700 mt-4 rounded text-white py-2" type="submit">
+            Entrar
           </button>
         </form>
       </div>
-      <div className="links">
+      <div className="mt-4">
         <ul>
           <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="clientes">Clientes</Link>
+            <Link className="flex items-center" to="/">
+              <AiFillHome className="mr-2" />
+              Volver al Home
+            </Link>
           </li>
         </ul>
       </div>

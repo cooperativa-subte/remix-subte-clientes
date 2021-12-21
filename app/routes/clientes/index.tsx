@@ -25,7 +25,7 @@ export default function ClientesIndexRoute() {
 
   return (
     <div>
-      <p>Acá va un cliente random</p>
+      <p className="font-bold">Cliente:</p>
       <p>{data.randomClient.name}</p>
       <Link to={data.randomClient.id}>&quot;{data.randomClient.name}&quot; Permalink</Link>
     </div>
