@@ -27,4 +27,35 @@ model Client {
   updatedAt     DateTime @updatedAt
   name          String
   contactEmail  String
+  domains       Domain[]
+  hostings      Hosting[]
+
+}
+
+model Hosting {
+  id  String @id @default(uuid())
+  clientId String
+  client Client @relation(fields: [clientId], references: [id], onDelete: Cascade )
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  serverName String
+  provider String
+  website String
+  price Int
+  currency String
+  expirationDate DateTime
+  payoutDate DateTime
+}
+
+model Domain {
+  id             String @id @default(uuid())
+  clientId       String
+  client         Client @relation(fields: [clientId], references: [id], onDelete: Cascade )
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  domain         String
+  price          Int
+  currency       String
+  expirationDate DateTime
+  payoutDate     DateTime
 }

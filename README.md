@@ -4,8 +4,10 @@
 
 
 ## Prisma regenerate database
+- Delete /prisma/dev.db
 ```sh
 npx prisma db push
+npx prisma db seed
 ```
 ## Development
 
