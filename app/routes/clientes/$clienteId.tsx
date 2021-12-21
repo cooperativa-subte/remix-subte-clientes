@@ -1,8 +1,6 @@
 import type { Client } from "@prisma/client";
 import {
   ActionFunction,
-  Form,
-  Link,
   LoaderFunction,
   MetaFunction,
   redirect,
@@ -93,7 +91,6 @@ export function CatchBoundary() {
 }
 
 export function ErrorBoundary({ error }: { error: Error }) {
-  console.log(error);
   const { clientId } = useParams();
 
   return (

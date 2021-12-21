@@ -23,7 +23,10 @@ export default function IndexRoute() {
         <nav className="mt-10">
           <ul>
             <li>
-              <Link className="border-2 py-2 px-4 border-black rounded" to="clientes">
+              <Link
+                className="border-2 border-black px-4 py-1 rounded hover:bg-gray-700 hover:text-white inline-block"
+                to="clientes"
+              >
                 Lista de Clientes
               </Link>
             </li>

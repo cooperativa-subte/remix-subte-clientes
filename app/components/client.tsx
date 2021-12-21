@@ -11,7 +11,7 @@ export function ClientDisplay({
   canDelete?: boolean;
 }) {
   return (
-    <div>
+    <div className="border rounded p-4 bg-gray-100">
       <p className="font-bold text-xl mb-4">Cliente:</p>
       <p className="italic text-xl">{client.name}</p>
       <p>

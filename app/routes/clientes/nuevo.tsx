@@ -98,44 +98,49 @@ export default function NuevoClienteRoute() {
 
   return (
     <div>
-      <p>Agregar un cliente</p>
+      <p className="font-bold text-xl">Agregar un cliente</p>
       <Form method="post">
-        <div>
-          <label>
+        <div className="mt-4">
+          <label className="font-bold">
             Nombre:{" "}
             <input
               aria-describedby={actionData?.fieldErrors?.name ? "name-error" : undefined}
               aria-invalid={Boolean(actionData?.fieldErrors?.name) || undefined}
+              className="inline-block w-full border rounded px-2"
               defaultValue={actionData?.fields?.name}
               name="name"
               type="text"
             />
           </label>
           {actionData?.fieldErrors?.name && (
-            <p className="form-validation-error" id="name-error" role="alert">
+            <p className="text-red-600" id="name-error" role="alert">
               {actionData.fieldErrors.name}
             </p>
           )}
         </div>
-        <div>
-          <label>
+        <div className="mt-2">
+          <label className="font-bold">
             Email de contacto:{" "}
             <input
               aria-describedby={actionData?.fieldErrors?.email ? "email-error" : undefined}
               aria-invalid={Boolean(actionData?.fieldErrors?.email) || undefined}
+              className="border rounded inline-block w-full px-2"
               defaultValue={actionData?.fields?.contactEmail}
               name="email"
               type="email"
             />
           </label>
           {actionData?.fieldErrors?.email && (
-            <p className="form-validation-error" id="email-error" role="alert">
+            <p className="text-red-600" id="email-error" role="alert">
               {actionData.fieldErrors.email}
             </p>
           )}
         </div>
         <div>
-          <button className="button" type="submit">
+          <button
+            className="border-2 border-black px-4 py-1 rounded mt-4 hover:bg-gray-700 hover:text-white"
+            type="submit"
+          >
             Agregar
           </button>
         </div>

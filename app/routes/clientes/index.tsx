@@ -1,5 +1,6 @@
 import { Client } from "@prisma/client";
-import { Link, LoaderFunction, useCatch, useLoaderData } from "remix";
+import { LoaderFunction, useCatch } from "remix";
+import { RiErrorWarningLine } from "react-icons/ri";
 
 import { db } from "~/utils/db.server";
 
@@ -21,13 +22,12 @@ export const loader: LoaderFunction = async () => {
 };
 
 export default function ClientesIndexRoute() {
-  const data = useLoaderData<LoaderData>();
-
   return (
     <div>
-      <p className="font-bold">Cliente:</p>
-      <p>{data.randomClient.name}</p>
-      <Link to={data.randomClient.id}>&quot;{data.randomClient.name}&quot; Permalink</Link>
+      <p className="bg-yellow-200 p-4 rounded text-gray-800 flex items-center">
+        <RiErrorWarningLine className="text-3xl mr-2" />
+        Selecciona un cliente en la lista de la izquierda para mostrar su información.
+      </p>
     </div>
   );
 }

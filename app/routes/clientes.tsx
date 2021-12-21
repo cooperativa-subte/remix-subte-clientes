@@ -49,7 +49,7 @@ export default function ClientesRoute() {
 
   return (
     <div>
-      <header className="mt-4 flex justify-between">
+      <header className="mt-4 flex justify-between max-w-7xl mx-auto">
         <h1 className="text-center">
           <Link
             aria-label="Subte Clientes"
@@ -67,7 +67,10 @@ export default function ClientesRoute() {
               ¡Hola <span className="capitalize font-bold">{`${data.user.username}`}!</span>
             </p>
             <Form action="/logout" className="ml-4" method="post">
-              <button className="border-2 border-black px-4 py-0 rounded" type="submit">
+              <button
+                className="border-2 border-black px-4 py-1 rounded hover:bg-gray-700 hover:text-white"
+                type="submit"
+              >
                 Logout
               </button>
             </Form>
@@ -76,36 +79,40 @@ export default function ClientesRoute() {
           <Link to="/login">Login</Link>
         )}
       </header>
-      <main>
-        <div className="clients-list flex flex-col">
-          <Link to=".">Mostrar un cliente random</Link>
-          <p>Este es un cliente random a mostrar</p>
-          <Link className="self-end mt-8 mb-4 border-2 border-black px-2 rounded" to="nuevo">
-            Agregar cliente
-          </Link>
-          <table className="table-auto border-collapse mt">
-            <thead>
-              <tr>
-                <th className="border border-gray-200 p-2">Nombre</th>
-                <th className="border border-gray-200 p-2">Email</th>
-              </tr>
-            </thead>
-            <tbody>
-              {data.clientsListItems.map((client) => (
-                <tr key={client.id}>
-                  <td className="border border-gray-200 p-2">
-                    <Link to={client.id}>{client.name}</Link>
-                  </td>
-                  <td className="border border-gray-200 p-2">
-                    <Link to={client.id}>{client.contactEmail}</Link>
-                  </td>
+      <main className="max-w-7xl mx-auto">
+        <h1 className="text-4xl text-center my-4">Listado de Clientes</h1>
+        <div className="grid grid-cols-2 gap-10">
+          <div className="">
+            <table className="table-auto border-collapse mt w-full">
+              <thead>
+                <tr>
+                  <th className="border border-gray-200 p-2">Nombre</th>
+                  <th className="border border-gray-200 p-2">Email</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <div className="clientes-outlet ml-8">
-          <Outlet />
+              </thead>
+              <tbody>
+                {data.clientsListItems.map((client) => (
+                  <tr key={client.id}>
+                    <td className="border border-gray-200 p-2">
+                      <Link to={client.id}>{client.name}</Link>
+                    </td>
+                    <td className="border border-gray-200 p-2">
+                      <Link to={client.id}>{client.contactEmail}</Link>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <Link
+              className="border-2 border-black px-4 py-1 rounded mt-4 hover:bg-gray-700 hover:text-white inline-block"
+              to="nuevo"
+            >
+              Agregar cliente
+            </Link>
+          </div>
+          <div className="clientes-outlet">
+            <Outlet />
+          </div>
         </div>
       </main>
     </div>
