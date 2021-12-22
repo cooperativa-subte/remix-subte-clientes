@@ -5,7 +5,7 @@ import { Outlet } from "remix";
 import { db } from "~/utils/db.server";
 import { getUser, getUserId } from "~/utils/session.server";
 
-import stylesUrl from "../styles/clientes.css";
+import stylesUrl from "../../styles/clientes.css";
 
 export const links: LinksFunction = () => {
   return [
@@ -49,18 +49,7 @@ export default function ClientesRoute() {
 
   return (
     <div>
-      <header className="mt-4 flex justify-between max-w-7xl mx-auto">
-        <h1 className="text-center">
-          <Link
-            aria-label="Subte Clientes"
-            className="font-bold text-xl"
-            title="Subte clientes"
-            to="/"
-          >
-            <img alt="Logo SUBTE" className="w-60 mb-2" src="/subte-logo.png" />
-            Clientes
-          </Link>
-        </h1>
+      <header className="mt-4 flex justify-end max-w-7xl mx-auto">
         {data.user ? (
           <div className="flex items-center">
             <p>

@@ -1,4 +1,4 @@
-import type { Client } from "@prisma/client";
+import type { Client, Domain, Hosting } from "@prisma/client";
 import {
   ActionFunction,
   LoaderFunction,
@@ -22,7 +22,7 @@ export const meta: MetaFunction = ({ data }: { data: LoaderData | undefined }) =
   };
 };
 
-type LoaderData = { client: Client; isOwner: boolean };
+type LoaderData = { client: Client; isOwner: boolean; hostings: Hosting[]; domains: Domain[] };
 
 export const loader: LoaderFunction = async ({ request, params }) => {
   const userId = await getUserId(request);
@@ -31,7 +31,16 @@ export const loader: LoaderFunction = async ({ request, params }) => {
   });
 
   if (!client) throw new Response("Cliente no encontrado", { status: 404 });
-  const data: LoaderData = { client, isOwner: userId === client.creatorId };
+
+  const hostings = await db.hosting.findMany({
+    where: { client: { id: client.id } },
+  });
+
+  const domains = await db.domain.findMany({
+    where: { client: { id: client.id } },
+  });
+
+  const data: LoaderData = { client, isOwner: userId === client.creatorId, hostings, domains };
 
   return data;
 };
@@ -62,7 +71,14 @@ export const action: ActionFunction = async ({ request, params }) => {
 export default function ClienteRoute() {
   const data = useLoaderData<LoaderData>();
 
-  return <ClientDisplay client={data.client} isOwner={data.isOwner} />;
+  return (
+    <ClientDisplay
+      client={data.client}
+      domains={data.domains}
+      hostings={data.hostings}
+      isOwner={data.isOwner}
+    />
+  );
 }
 
 export function CatchBoundary() {

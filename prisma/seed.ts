@@ -10,7 +10,7 @@ async function seed() {
     },
   });
 
-  getClients().map(async (client) => {
+  getClients().map(async (client, index) => {
     const data = { creatorId: creator.id, ...client };
 
     try {
@@ -18,20 +18,17 @@ async function seed() {
         data,
       });
 
-      await Promise.all(
-        getDomains().map((domain) => {
-          const domainData = { clientId: clientCreated.id, ...domain };
+      const domain = getDomains()[index];
 
-          return prisma.domain.create({ data: domainData });
-        }),
-      );
-      await Promise.all(
-        getHostings().map((hosting) => {
-          const hostingData = { clientId: clientCreated.id, ...hosting };
+      const domainData = { clientId: clientCreated.id, ...domain };
 
-          return prisma.hosting.create({ data: hostingData });
-        }),
-      );
+      await prisma.domain.create({ data: domainData });
+
+      const hosting = getHostings()[index];
+
+      const hostingData = { clientId: clientCreated.id, ...hosting };
+
+      return prisma.hosting.create({ data: hostingData });
     } catch (error) {
       console.log(error);
     }
