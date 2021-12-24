@@ -49,7 +49,7 @@ async function seed() {
 
       const hostingData = {
         clientId: clientCreated.id,
-        providerId: index === 0 ? hostingProviders[1].id : hostingProviders[2].id,
+        providerId: index === 0 ? hostingProviders[1].id ?? "" : hostingProviders[2].id ?? "",
         ...hosting,
       };
 
