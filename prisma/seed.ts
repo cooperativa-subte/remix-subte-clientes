@@ -10,6 +10,29 @@ async function seed() {
     },
   });
 
+  let hostingProviders: {
+    id?: string;
+    name: string;
+    provider: string;
+    price: number;
+    currency: string;
+    expirationDate: Date;
+  }[] = getHostingProviders();
+
+  Promise.all(
+    hostingProviders.map(async (hostingProvider) => {
+      return prisma.hostingProvider.create({
+        data: { ownerId: creator.id, ...hostingProvider },
+      });
+    }),
+  )
+    .then(async (hostingProvidersCreated) => {
+      hostingProviders = hostingProvidersCreated;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+
   getClients().map(async (client, index) => {
     const data = { creatorId: creator.id, ...client };
 
@@ -20,15 +43,17 @@ async function seed() {
 
       const domain = getDomains()[index];
 
-      const domainData = { clientId: clientCreated.id, ...domain };
-
-      await prisma.domain.create({ data: domainData });
+      await prisma.domain.create({ data: { clientId: clientCreated.id, ...domain } });
 
       const hosting = getHostings()[index];
 
-      const hostingData = { clientId: clientCreated.id, ...hosting };
+      const hostingData = {
+        clientId: clientCreated.id,
+        providerId: index === 0 ? hostingProviders[1].id : hostingProviders[2].id,
+        ...hosting,
+      };
 
-      return prisma.hosting.create({ data: hostingData });
+      await prisma.hosting.create({ data: hostingData });
     } catch (error) {
       console.log(error);
     }
@@ -49,11 +74,58 @@ function getClients() {
     },
   ];
 }
+
+function getHostingProviders() {
+  return [
+    {
+      name: "ceifem.ei.udelar.edu.uy",
+      provider: "Hosting Montevideo",
+      price: 160.65,
+      currency: "USD",
+      expirationDate: new Date("2022-07-29"),
+    },
+    {
+      name: "cooperativacomuna.uy",
+      provider: "Hosting Montevideo",
+      price: 186.15,
+      currency: "USD",
+      expirationDate: new Date("2022-07-29"),
+    },
+    {
+      name: "elpicadero.org.uy",
+      provider: "Hosting Montevideo",
+      price: 186.15,
+      currency: "USD",
+      expirationDate: new Date("2022-05-19"),
+    },
+    {
+      name: "historiasdebarro.uy",
+      provider: "Funio",
+      price: 9.99,
+      currency: "USD",
+      expirationDate: new Date("2022-01-13"),
+    },
+    {
+      name: "subte.uy",
+      provider: "Banah Hosting",
+      price: 107.46,
+      currency: "USD",
+      expirationDate: new Date("2022-01-22"),
+    },
+    {
+      name: "suinau.org.uy",
+      provider: "Hosting Montevideo",
+      price: 119,
+      currency: "USD",
+      expirationDate: new Date("2022-06-24"),
+    },
+  ];
+}
+
 function getHostings() {
   return [
     {
       serverName: "cooperativacomuna.uy",
-      provider: "Hosting Montevideo",
       website: "https://cooperativacomuna.uy",
       price: 40,
       currency: "USD",
@@ -62,7 +134,6 @@ function getHostings() {
     },
     {
       serverName: "elpicadero.org.uy",
-      provider: "Hosting Montevideo",
       website: "https://terratabu.uy",
       price: 40,
       currency: "USD",

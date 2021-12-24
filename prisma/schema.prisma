@@ -11,12 +11,13 @@ datasource db {
 }
 
 model User {
-  id            String   @id@default(cuid())
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-  username      String   @unique
-  passwordHash  String
-  clients       Client[]
+  id                String   @id@default(cuid())
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  username          String   @unique
+  passwordHash      String
+  clients           Client[]
+  hostingProviders  HostingProvider[]
 }
 
 model Client {
@@ -32,19 +33,34 @@ model Client {
 
 }
 
+model HostingProvider {
+  id              String @id @default(uuid())
+  ownerId         String
+  owner           User @relation(fields: [ownerId], references: [id], onDelete: Cascade )
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  name            String
+  provider        String
+  price           Float
+  currency        String
+  expirationDate  DateTime
+  hostings        Hosting[]
+}
+
 model Hosting {
-  id  String @id @default(uuid())
-  clientId String
-  client Client @relation(fields: [clientId], references: [id], onDelete: Cascade )
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  serverName String
-  provider String
-  website String
-  price Int
-  currency String
-  expirationDate DateTime
-  payoutDate DateTime
+  id              String @id @default(uuid())
+  clientId        String
+  client          Client @relation(fields: [clientId], references: [id], onDelete: Cascade )
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  serverName      String
+  providerId      String
+  provider        HostingProvider @relation(fields: [providerId], references: [id], onDelete: Cascade )
+  website         String
+  price           Float
+  currency        String
+  expirationDate  DateTime
+  payoutDate      DateTime
 }
 
 model Domain {
@@ -54,7 +70,7 @@ model Domain {
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
   domain         String
-  price          Int
+  price          Float
   currency       String
   expirationDate DateTime
   payoutDate     DateTime
