@@ -1,5 +1,5 @@
 import { User } from "@prisma/client";
-import { Form, Link, LinksFunction, LoaderFunction, useCatch, useLoaderData } from "remix";
+import { Link, LinksFunction, LoaderFunction, useCatch, useLoaderData } from "remix";
 import { Outlet } from "remix";
 
 import { db } from "~/utils/db.server";
@@ -48,26 +48,7 @@ export default function ClientesRoute() {
   const data = useLoaderData<LoaderData>();
 
   return (
-    <div>
-      <header className="mt-4 flex justify-end max-w-7xl mx-auto">
-        {data.user ? (
-          <div className="flex items-center">
-            <p>
-              ¡Hola <span className="capitalize font-bold">{`${data.user.username}`}!</span>
-            </p>
-            <Form action="/logout" className="ml-4" method="post">
-              <button
-                className="border-2 border-black px-4 py-1 rounded hover:bg-gray-700 hover:text-white"
-                type="submit"
-              >
-                Logout
-              </button>
-            </Form>
-          </div>
-        ) : (
-          <Link to="/login">Login</Link>
-        )}
-      </header>
+    <>
       <main className="max-w-7xl mx-auto">
         <h1 className="text-4xl text-center my-4">Listado de Clientes</h1>
         <div className="grid grid-cols-2 gap-10">
@@ -104,7 +85,7 @@ export default function ClientesRoute() {
           </div>
         </div>
       </main>
-    </div>
+    </>
   );
 }
 

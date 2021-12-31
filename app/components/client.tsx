@@ -70,7 +70,7 @@ export function ClientDisplay({
         <Form className="flex justify-end" method="post">
           <input name="_method" type="hidden" value="DELETE" />
           <button
-            className="border-2 border-black px-2 rounded"
+            className="border-2 border-black px-4 py-1 rounded hover:bg-gray-700 hover:text-white"
             disabled={!canDelete}
             type="submit"
           >

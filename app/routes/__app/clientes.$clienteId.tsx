@@ -72,12 +72,14 @@ export default function ClienteRoute() {
   const data = useLoaderData<LoaderData>();
 
   return (
-    <ClientDisplay
-      client={data.client}
-      domains={data.domains}
-      hostings={data.hostings}
-      isOwner={data.isOwner}
-    />
+    <div className="mt-4 max-w-screen-xl mx-auto">
+      <ClientDisplay
+        client={data.client}
+        domains={data.domains}
+        hostings={data.hostings}
+        isOwner={data.isOwner}
+      />
+    </div>
   );
 }
 

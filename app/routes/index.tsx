@@ -16,7 +16,6 @@ export const meta: MetaFunction = () => {
 export default function IndexRoute() {
   return (
     <>
-      <header />
       <div className="flex flex-col items-center p-8">
         <img alt="Logo SUBTE" className="w-80 " src="/subte-logo.png" />
         <p className="mb-8 text-xl mt-2 font-bold">Clientes</p>
