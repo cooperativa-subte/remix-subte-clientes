@@ -21,7 +21,7 @@ export default function HostingProvidersRoute() {
   const data = useLoaderData<LoaderData>();
 
   return (
-    <section className="max-w-screen-xl mx-auto">
+    <section className="mx-auto max-w-screen-xl">
       <table>
         <thead>
           <tr>

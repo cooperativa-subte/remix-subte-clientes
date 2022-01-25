@@ -49,11 +49,11 @@ export default function ClientesRoute() {
 
   return (
     <>
-      <main className="max-w-7xl mx-auto">
-        <h1 className="text-4xl text-center my-4">Listado de Clientes</h1>
+      <main className="mx-auto max-w-7xl">
+        <h1 className="my-4 text-center text-4xl">Listado de Clientes</h1>
         <div className="grid grid-cols-2 gap-10">
           <div className="">
-            <table className="table-auto border-collapse mt w-full">
+            <table className="mt w-full table-auto border-collapse">
               <thead>
                 <tr>
                   <th className="border border-gray-200 p-2">Nombre</th>
@@ -74,7 +74,7 @@ export default function ClientesRoute() {
               </tbody>
             </table>
             <Link
-              className="border-2 border-black px-4 py-1 rounded mt-4 hover:bg-gray-700 hover:text-white inline-block"
+              className="mt-4 inline-block rounded border-2 border-black px-4 py-1 hover:bg-gray-700 hover:text-white"
               to="nuevo"
             >
               Agregar cliente
@@ -94,12 +94,12 @@ export function CatchBoundary({ error }: { error: Error }) {
 
   if (caught.status === 401) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen">
+      <div className="flex min-h-screen flex-col items-center justify-center">
         <img alt="Logo SUBTE" className="w-80 " src="/subte-logo.png" />
-        <p className="mb-8 text-xl mt-2 font-bold">Clientes</p>
+        <p className="mb-8 mt-2 text-xl font-bold">Clientes</p>
         <p className="text-4xl">Tienes que estar autenticado para usar la app.</p>
         <Link
-          className="rounded bg-black text-white py-2 px-4 font-bold uppercase mt-6"
+          className="mt-6 rounded bg-black py-2 px-4 font-bold uppercase text-white"
           to="/login"
         >
           Login

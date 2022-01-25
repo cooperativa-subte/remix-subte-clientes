@@ -53,7 +53,7 @@ export default function HostingsRoute() {
   console.log(data);
 
   return (
-    <div className="max-w-screen-xl mx-auto mt-10">
+    <div className="mx-auto mt-10 max-w-screen-xl">
       <table>
         <thead>
           <tr>

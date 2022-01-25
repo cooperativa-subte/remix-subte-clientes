@@ -98,7 +98,7 @@ export default function NuevoClienteRoute() {
 
   return (
     <div>
-      <p className="font-bold text-xl">Agregar un cliente</p>
+      <p className="text-xl font-bold">Agregar un cliente</p>
       <Form method="post">
         <div className="mt-4">
           <label className="font-bold">
@@ -106,7 +106,7 @@ export default function NuevoClienteRoute() {
             <input
               aria-describedby={actionData?.fieldErrors?.name ? "name-error" : undefined}
               aria-invalid={Boolean(actionData?.fieldErrors?.name) || undefined}
-              className="inline-block w-full border rounded px-2"
+              className="inline-block w-full rounded border px-2"
               defaultValue={actionData?.fields?.name}
               name="name"
               type="text"
@@ -124,7 +124,7 @@ export default function NuevoClienteRoute() {
             <input
               aria-describedby={actionData?.fieldErrors?.email ? "email-error" : undefined}
               aria-invalid={Boolean(actionData?.fieldErrors?.email) || undefined}
-              className="border rounded inline-block w-full px-2"
+              className="inline-block w-full rounded border px-2"
               defaultValue={actionData?.fields?.contactEmail}
               name="email"
               type="email"
@@ -138,7 +138,7 @@ export default function NuevoClienteRoute() {
         </div>
         <div>
           <button
-            className="border-2 border-black px-4 py-1 rounded mt-4 hover:bg-gray-700 hover:text-white"
+            className="mt-4 rounded border-2 border-black px-4 py-1 hover:bg-gray-700 hover:text-white"
             type="submit"
           >
             Agregar

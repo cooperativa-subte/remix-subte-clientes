@@ -33,7 +33,7 @@ export default function DominiosRoute() {
   const data = useLoaderData<LoaderData>();
 
   return (
-    <div className="max-w-screen-xl mx-auto">
+    <div className="mx-auto max-w-screen-xl">
       <h1 className="text-center text-4xl font-bold">Listado de Dominios</h1>
       <table>
         <thead>

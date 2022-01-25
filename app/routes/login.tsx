@@ -9,8 +9,7 @@ import {
 } from "remix";
 import { AiFillHome } from "react-icons/ai";
 
-import { db } from "~/utils/db.server";
-import { createUserSession, login, register } from "~/utils/session.server";
+import { createUserSession, login } from "~/utils/session.server";
 
 import stylesUrl from "../styles/login.css";
 
@@ -94,15 +93,15 @@ export default function Login() {
 
   return (
     <div className="flex flex-col items-center">
-      <img alt="Logo SUBTE" className="w-80 mt-10" src="/subte-logo.png" />
-      <p className="mb-8 text-xl mt-2 font-bold">Clientes</p>
+      <img alt="Logo SUBTE" className="mt-10 w-80" src="/subte-logo.png" />
+      <p className="mb-8 mt-2 text-xl font-bold">Clientes</p>
       <div data-light="">
         <form
           aria-describedby={actionData?.formError ? "form-error-message" : undefined}
-          className="bg-gray-100 px-8 py-4 rounded"
+          className="rounded bg-gray-100 px-8 py-4"
           method="post"
         >
-          <h1 className="text-xl font-bold text-center mb-4">Login</h1>
+          <h1 className="mb-4 text-center text-xl font-bold">Login</h1>
           <input
             name="redirectTo"
             type="hidden"
@@ -149,7 +148,7 @@ export default function Login() {
           <div id="form-error-message">
             {actionData?.formError && <p>{actionData?.formError}</p>}
           </div>
-          <button className="w-full bg-gray-700 mt-4 rounded text-white py-2" type="submit">
+          <button className="mt-4 w-full rounded bg-gray-700 py-2 text-white" type="submit">
             Entrar
           </button>
         </form>

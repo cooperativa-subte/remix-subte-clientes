@@ -1,5 +1,5 @@
 import { Client } from "@prisma/client";
-import { LoaderFunction, useCatch } from "remix";
+import { LoaderFunction, Outlet, useCatch } from "remix";
 import { RiErrorWarningLine } from "react-icons/ri";
 
 import { db } from "~/utils/db.server";
@@ -24,10 +24,11 @@ export const loader: LoaderFunction = async () => {
 export default function ClientesIndexRoute() {
   return (
     <div>
-      <p className="bg-yellow-200 p-4 rounded text-gray-800 flex items-center">
-        <RiErrorWarningLine className="text-3xl mr-2" />
+      <p className="flex items-center rounded bg-yellow-200 p-4 text-gray-800">
+        <RiErrorWarningLine className="mr-2 text-3xl" />
         Selecciona un cliente en la lista de la izquierda para mostrar su información.
       </p>
+      <Outlet />
     </div>
   );
 }

@@ -28,7 +28,7 @@ export default function AppLayout() {
 
   return (
     <div>
-      <header className="max-w-screen-xl mx-auto py-4 flex justify-between items-center">
+      <header className="mx-auto flex max-w-screen-xl items-center justify-between py-4">
         <Link to="/">
           <div className="flex flex-col items-end">
             <img alt="Logo de SUBTE" className="w-40" src="/subte-logo.png" />
@@ -50,15 +50,15 @@ export default function AppLayout() {
         </nav>
       </header>
       <main>
-        <div className="mt-4 flex justify-end max-w-7xl mx-auto">
+        <div className="mx-auto mt-4 flex max-w-7xl justify-end">
           {data.user ? (
             <div className="flex items-center">
               <p>
-                ¡Hola <span className="capitalize font-bold">{`${data.user.username}`}!</span>
+                ¡Hola <span className="font-bold capitalize">{`${data.user.username}`}!</span>
               </p>
               <Form action="/logout" className="ml-4" method="post">
                 <button
-                  className="border-2 border-black px-4 py-1 rounded hover:bg-gray-700 hover:text-white"
+                  className="rounded border-2 border-black px-4 py-1 hover:bg-gray-700 hover:text-white"
                   type="submit"
                 >
                   Logout
