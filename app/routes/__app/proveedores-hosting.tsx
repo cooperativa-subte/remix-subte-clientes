@@ -1,5 +1,5 @@
 import { HostingProvider } from "@prisma/client";
-import { LoaderFunction, useLoaderData } from "remix";
+import { LoaderFunction, Outlet, useLoaderData } from "remix";
 
 import { db } from "~/utils/db.server";
 
@@ -7,7 +7,7 @@ type LoaderData = {
   hostingProviders: HostingProvider[];
 };
 
-export const loader: LoaderFunction = async ({ request }) => {
+export const loader: LoaderFunction = async () => {
   const hostingProviders = await db.hostingProvider.findMany({
     orderBy: { name: "asc" },
   });
@@ -21,7 +21,7 @@ export default function HostingProvidersRoute() {
   const data = useLoaderData<LoaderData>();
 
   return (
-    <section className="mx-auto max-w-screen-xl">
+    <section className="mx-auto mt-4 grid max-w-screen-xl grid-cols-2 gap-10">
       <table>
         <thead>
           <tr>
@@ -40,6 +40,7 @@ export default function HostingProvidersRoute() {
           ))}
         </tbody>
       </table>
+      <Outlet />
     </section>
   );
 }

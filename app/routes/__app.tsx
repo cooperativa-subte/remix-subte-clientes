@@ -46,6 +46,9 @@ export default function AppLayout() {
             <li className="ml-4">
               <Link to="/hostings">Hostings</Link>
             </li>
+            <li className="ml-4">
+              <Link to="/proveedores-hosting">Proveedores de Hosting</Link>
+            </li>
           </ul>
         </nav>
       </header>
