@@ -15,9 +15,9 @@ export function ClientDisplay({
   hostings?: Hosting[];
 }) {
   return (
-    <div className="border rounded p-4 bg-gray-100">
-      <p className="font-bold text-xl mb-4">Cliente:</p>
-      <p className="italic text-xl">{client.name}</p>
+    <div className="rounded border bg-gray-100 p-4">
+      <p className="mb-4 text-xl font-bold">Cliente:</p>
+      <p className="text-xl italic">{client.name}</p>
       <p className="mb-4">
         <span className="font-bold">Email de contacto: </span>
         <a
@@ -33,8 +33,8 @@ export function ClientDisplay({
         <table className="table-fixed">
           <thead>
             <tr>
-              <th className="border border-gray-300 p-2 w-48">Nombre Hosting</th>
-              <th className="border border-gray-300 p-2 w-48">Vence</th>
+              <th className="w-48 border border-gray-300 p-2">Nombre Hosting</th>
+              <th className="w-48 border border-gray-300 p-2">Vence</th>
             </tr>
           </thead>
           <tbody>
@@ -51,8 +51,8 @@ export function ClientDisplay({
         <table className="mt-4 table-fixed">
           <thead>
             <tr>
-              <th className="border border-gray-300 p-2 w-48">Dominio</th>
-              <th className="border border-gray-300 p-2 w-48">Vence</th>
+              <th className="w-48 border border-gray-300 p-2">Dominio</th>
+              <th className="w-48 border border-gray-300 p-2">Vence</th>
             </tr>
           </thead>
           <tbody>
@@ -70,7 +70,7 @@ export function ClientDisplay({
         <Form className="flex justify-end" method="post">
           <input name="_method" type="hidden" value="DELETE" />
           <button
-            className="border-2 border-black px-4 py-1 rounded hover:bg-gray-700 hover:text-white"
+            className="rounded border-2 border-black px-4 py-1 hover:bg-gray-700 hover:text-white"
             disabled={!canDelete}
             type="submit"
           >

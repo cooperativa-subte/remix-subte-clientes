@@ -162,9 +162,7 @@ export function CatchBoundary() {
   }
 }
 
-export function ErrorBoundary({ error }: { error: Error }) {
-  console.log(error);
-
+export function ErrorBoundary() {
   return (
     <div className="error-container">
       <p>Ups, algo pasó mal. Inténtelo de nuevo.</p>

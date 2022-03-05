@@ -1,5 +1,5 @@
 import { User } from "@prisma/client";
-import { Form, Link, LoaderFunction, Outlet, useLoaderData } from "remix";
+import { Form, Link, LoaderFunction, Outlet, useCatch, useLoaderData } from "remix";
 
 import { getUser, getUserId } from "~/utils/session.server";
 
@@ -76,4 +76,24 @@ export default function AppLayout() {
       </main>
     </div>
   );
+}
+
+export function CatchBoundary() {
+  const caught = useCatch();
+
+  if (caught.status === 401) {
+    return (
+      <div className="flex min-h-screen flex-col items-center justify-center">
+        <img alt="Logo SUBTE" className="w-80 " src="/subte-logo.png" />
+        <p className="mb-8 mt-2 text-xl font-bold">Clientes</p>
+        <p className="text-4xl">Tienes que estar autenticado para usar la app.</p>
+        <Link
+          className="mt-6 rounded bg-black py-2 px-4 font-bold uppercase text-white"
+          to="/login"
+        >
+          Login
+        </Link>
+      </div>
+    );
+  }
 }

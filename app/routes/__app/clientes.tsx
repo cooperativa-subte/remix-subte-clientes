@@ -89,7 +89,7 @@ export default function ClientesRoute() {
   );
 }
 
-export function CatchBoundary({ error }: { error: Error }) {
+export function CatchBoundary() {
   const caught = useCatch();
 
   if (caught.status === 401) {
